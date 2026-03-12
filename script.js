@@ -14,13 +14,22 @@ const stocks = [
   { ticker: "MSFT", mentions: 7, trend: "Steady attention" }
 ];
 
+const watchlistData = [
+  { ticker: "NVDA", note: "AI momentum" },
+  { ticker: "PLTR", note: "Government exposure" },
+  { ticker: "TSLA", note: "Volatile but active" },
+  { ticker: "AAPL", note: "Steady large-cap interest" }
+];
+
 const earnersList = document.getElementById("earnersList");
 const stocksList = document.getElementById("stocksList");
+const watchlist = document.getElementById("watchlist");
 const searchInput = document.getElementById("searchInput");
 
 function renderLists(filter = "") {
   earnersList.innerHTML = "";
   stocksList.innerHTML = "";
+  watchlist.innerHTML = "";
 
   const filteredEarners = earners.filter(item =>
     item.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -31,18 +40,41 @@ function renderLists(filter = "") {
     item.ticker.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const filteredWatchlist = watchlistData.filter(item =>
+    item.ticker.toLowerCase().includes(filter.toLowerCase()) ||
+    item.note.toLowerCase().includes(filter.toLowerCase())
+  );
+
   filteredEarners.forEach(item => {
     const div = document.createElement("div");
     div.className = "item";
-    div.innerHTML = `<strong>${item.name}</strong><br>Ticker: ${item.ticker}<br>Gain: ${item.gain}`;
+    div.innerHTML = `
+      <strong>${item.name}</strong>
+      Ticker: ${item.ticker}<br>
+      Gain: ${item.gain}
+    `;
     earnersList.appendChild(div);
   });
 
   filteredStocks.forEach(item => {
     const div = document.createElement("div");
     div.className = "item";
-    div.innerHTML = `<strong>${item.ticker}</strong><br>Mentions: ${item.mentions}<br>${item.trend}`;
+    div.innerHTML = `
+      <strong>${item.ticker}</strong>
+      Mentions: ${item.mentions}<br>
+      ${item.trend}
+    `;
     stocksList.appendChild(div);
+  });
+
+  filteredWatchlist.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <strong>${item.ticker}</strong>
+      Note: ${item.note}
+    `;
+    watchlist.appendChild(div);
   });
 }
 
